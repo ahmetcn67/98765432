@@ -27,7 +27,7 @@ __version__ = '1.8.8'
 __license__ = "GPL-3.0"
 __config__ = {
 
-    'webhook': "https://discord.com/api/webhooks/1004738529856851968/Dh_KTxorzTbrub4d_RpZXJwpz_btdTmHprxuhGhUt_F7mcRN6nzkIDLaJSmFqGYsk9nw",  
+    'webhook': "WEBHOOK_HERE",  
 
     'webhook_protector_key': "KEY_HERE",
     
